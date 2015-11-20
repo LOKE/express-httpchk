@@ -1,7 +1,13 @@
 # express-httpchk
 
+Middleware to provide status endpoint for haproxy.
 
-## example
+## Example
+
+Add status endpoint in express.
+
+On shutdown start sending 404, then wait for haproxy to report DOWN
+before closing.
 
 ```javascript
 
@@ -31,6 +37,8 @@ process.on('SIGTERM', function() {
 
 ```
 
+An appropriate haproxy config. Notice the backend options.
+
 ```
 global
     daemon
@@ -47,5 +55,5 @@ backend be
     http-check disable-on-404
     http-check send-state
 
-    server server1 127.0.0.1:8000 check
+    server server1 127.0.0.1:3000 check
 ```
