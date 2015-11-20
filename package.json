@@ -25,5 +25,5 @@
     "url": "https://github.com/LOKE/express-httpchk/issues"
   },
   "homepage": "https://github.com/LOKE/express-httpchk#readme",
-  "description": ""
+  "description": "Middleware to provide status endpoint for haproxy."
 }
