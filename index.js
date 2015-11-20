@@ -1,14 +1,16 @@
 var Promise = require('pinky-promise');
 
+var haproxyStateRe = /(UP|DOWN|NOLB)(?: (\d+)\/(\d+))?;(.*)/;
+var haproxykeyValRe = /([^;= ]*)=([^;=]*)(?:;|$)?/;
+
 function parseHaproxyState(stateStr) {
-  var keyValRe = /([^;= ]*)=([^;=]*)(?:;|$)?/
-  var parts = /(UP|DOWN|NOLB)(?: (\d+)\/(\d+))?;(.*)/.exec(stateStr);
+  var parts = haproxyStateRe.exec(stateStr);
   var status = parts[1];
   var theRest = parts[4];
   var data = {};
 
   var match;
-  while ((match = keyValRe.exec(theRest)) !== null) {
+  while ((match = haproxykeyValRe.exec(theRest)) !== null) {
     data[match[1]] = match[2];
   }
 
@@ -18,11 +20,11 @@ function parseHaproxyState(stateStr) {
   };
 }
 
-function defaultGetStatus(lastHaproxyState) {
+function defaultGetStatus(/*lastHaproxyState*/) {
   return {
     status: 'NO STATUS'
   };
-};
+}
 
 module.exports = function (statusFn) {
   var lastHaproxyStatus;
@@ -33,7 +35,6 @@ module.exports = function (statusFn) {
   var getStatus = statusFn || defaultGetStatus;
 
   function middleWare(req, res) {
-    var shutdown = middleWare.shutdown;
     var haproxyState = req.get('X-Haproxy-Server-State');
     var parsedState;
 
@@ -54,7 +55,7 @@ module.exports = function (statusFn) {
     shuttingDown = true;
     if (shutdownPromise) return shutdownPromise;
 
-    shutdownPromise = new Promise(function (_resolve, reject) {
+    shutdownPromise = new Promise(function (_resolve) {
       if (lastHaproxyStatus !== 'UP') {
         _resolve();
       } else {
