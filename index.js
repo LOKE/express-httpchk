@@ -25,7 +25,6 @@ function defaultGetStatus(lastHaproxyState) {
 };
 
 module.exports = function (statusFn) {
-
   var lastHaproxyStatus;
   var resolve;
   var shutdownPromise;
@@ -56,7 +55,6 @@ module.exports = function (statusFn) {
     if (shutdownPromise) return shutdownPromise;
 
     shutdownPromise = new Promise(function (_resolve, reject) {
-      console.log('lastHaproxyStatus', lastHaproxyStatus);
       if (lastHaproxyStatus !== 'UP') {
         _resolve();
       } else {
@@ -64,7 +62,6 @@ module.exports = function (statusFn) {
       }
     })
     .then(function () {
-      console.log('SHUTDOWN Boom!');
       resolve = null;
     });
 
