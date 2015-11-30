@@ -1,4 +1,4 @@
-var Promise = require('pinky-promise');
+var Promise = require('pinkie-promise');
 
 var haproxyStateRe = /(UP|DOWN|NOLB)(?: (\d+)\/(\d+))?;(.*)/;
 var haproxykeyValRe = /([^;= ]*)=([^;=]*)(?:;|$)?/;

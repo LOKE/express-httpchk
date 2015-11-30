@@ -9,7 +9,7 @@
   "author": "Dominic Smith",
   "license": "MIT",
   "dependencies": {
-    "pinky-promise": "^0.1.0"
+    "pinkie-promise": "^2.0.0"
   },
   "devDependencies": {
     "eslint": "^1.9.0"
