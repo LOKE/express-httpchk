@@ -1,9 +1,10 @@
 var Promise = require('pinkie-promise');
 
 var haproxyStateRe = /(UP|DOWN|NOLB)(?: (\d+)\/(\d+))?;(.*)/;
-var haproxykeyValRe = /([^;= ]*)=([^;=]*)(?:;|$)?/;
 
 function parseHaproxyState(stateStr) {
+  var haproxykeyValRe = /([^;= ]*)=([^;=]*)(?:;|$)?/g;
+
   var parts = haproxyStateRe.exec(stateStr);
   var status = parts[1];
   var theRest = parts[4];
